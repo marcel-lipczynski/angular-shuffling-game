@@ -13,6 +13,9 @@ app/**/*.js.map
 node_modules/
 bower_components/
 
+#Nx
+.nx
+
 # IDEs and editors
 .idea/
 

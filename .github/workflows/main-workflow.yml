@@ -50,7 +50,7 @@ jobs:
         run: ls -ll
 
       - name: Install node_modules
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Run tests
         run: npm run test

@@ -41,11 +41,11 @@ jobs:
         with:
           node-version: 20
 
-#      - uses: actions/cache/restore@v4
-#        id: cache-npm
-#        with:
-#          path: ~/.npm
-#          key: npm-*
+      - uses: actions/cache/restore@v4
+        id: cache-npm
+        with:
+          path: ~/.npm
+          key: npm-
 
       - name: List folders
         run: ls -ll

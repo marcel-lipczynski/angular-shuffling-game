@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node_modules
-          path: .
+          path: node_modules
 
   run-tests:
     runs-on: ubuntu-latest
@@ -48,10 +48,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node_modules
-          path: ./
+          path: node_modules
 
       - name: List folders
-        run: ls -ll
+        run: ls -ll && cat node_modules
 
       - name: Set execute permissions for node_modules
         run: chmod -R +x node_modules

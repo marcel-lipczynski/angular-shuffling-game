@@ -15,8 +15,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
 
       - name: Install packages
         run: npm ci
@@ -47,9 +45,6 @@ jobs:
           path: ~/.npm
           key: npm-
 
-      - name: List folders
-        run: ls -ll
-
       - name: Install node_modules
         run: npm ci --ignore-scripts
 
@@ -67,8 +62,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install packages
-        run: npm ci
+      - uses: actions/cache/restore@v4
+        id: cache-npm
+        with:
+          path: ~/.npm
+          key: npm-
+
+      - name: Install node_modules
+        run: npm ci --ignore-scripts
 
       - name: Build application
         run: npm run build

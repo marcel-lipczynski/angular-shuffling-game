@@ -6,5 +6,6 @@
   "singleQuote": true,
   "semicolon": true,
   "quoteProps": "preserve",
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "trailingComma": "es5"
 }

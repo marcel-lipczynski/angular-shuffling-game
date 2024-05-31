@@ -9,7 +9,7 @@
 #Files
 .prettierrc
 .stylelintrc.json
-eslint.config.mjs
+eslint.config.js
 package.json
 package-lock.json
 src/test-setup.ts

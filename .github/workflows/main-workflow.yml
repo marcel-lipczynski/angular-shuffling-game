@@ -46,6 +46,9 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-modules
 
+      - name: List folders
+        run: ls -ll
+
       - name: Install node_modules
         run: npm ci
 

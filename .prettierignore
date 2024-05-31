@@ -8,6 +8,7 @@
 
 #Files
 .prettierrc
+eslint.config.js
 package.json
 package-lock.json
 src/test-setup.ts

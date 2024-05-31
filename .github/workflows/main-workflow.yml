@@ -47,6 +47,9 @@ jobs:
       - name: Set execute permissions for node_modules/.bin
         run: chmod -R +x node_modules
 
+      - name: Install additional packages
+        run: npm ci --prefer-offline
+
       - name: Run tests
         run: npm run test
 
@@ -69,6 +72,9 @@ jobs:
 
       - name: Set execute permissions for node_modules/.bin
         run: chmod -R +x node_modules
+
+      - name: Install additional packages
+        run: npm ci --prefer-offline
 
       - name: Build application
         run: npm run build

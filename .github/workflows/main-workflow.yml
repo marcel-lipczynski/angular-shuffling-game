@@ -52,7 +52,7 @@ jobs:
         run: npm run lint
 
       - name: Run style lint
-        run: npm run lint:style
+        run: npm run lint:styles
 
       - name: Run Prettier check
         run: npm run prettier:check

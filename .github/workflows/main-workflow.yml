@@ -51,7 +51,7 @@ jobs:
           path: node_modules
 
       - name: List folders
-        run: ls -ll && cat node_modules
+        run: ls -ll && ls node_modules
 
       - name: Set execute permissions for node_modules
         run: chmod -R +x node_modules

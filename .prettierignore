@@ -1,3 +1,17 @@
+#Directories
 /node_modules
+.nx
+.github
+.husky
+.idea
+.angular
+
+#Files
 package.json
 package-lock.json
+src/test-setup.ts
+jest.config.ts
+jest.preset.js
+nx.json
+project.json
+**/tsconfig*

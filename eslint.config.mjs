@@ -1,4 +1,4 @@
-// eslint.config.js
+// eslint.config.mjs
 import angularTemplatePlugin from '@angular-eslint/eslint-plugin-template';
 import angularEslintPlugin from '@angular-eslint/eslint-plugin';
 import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';

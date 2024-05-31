@@ -40,12 +40,6 @@ jobs:
       - name: Install packages
         run: npm ci
 
-      - name: Save node_modules as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: node_modules
-          path: node_modules
-
   run-tests:
     runs-on: ubuntu-latest
     needs: install-dependencies
@@ -57,14 +51,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Download node_modules artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: node_modules
-          path: node_modules
-
-      - name: Set execute permissions for node_modules
-        run: chmod -R +x node_modules
+      - name: Install packages
+        run: npm ci
 
       - name: Run tests
         run: npm run test
@@ -80,17 +68,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Download node_modules artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: node_modules
-          path: node_modules
-
-      - name: Set execute permissions for node_modules
-        run: chmod -R +x node_modules
-
-      #      - name: Install additional packages
-      #        run: npm ci --prefer-offline
+      - name: Install packages
+        run: npm ci
 
       - name: Build application
         run: npm run build

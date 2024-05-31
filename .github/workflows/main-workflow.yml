@@ -21,11 +21,14 @@ jobs:
       - name: Install packages
         run: npm ci
 
+      - name: List folders
+        run: ls -lls
+
       - name: Save node_modules as artifact
         uses: actions/upload-artifact@v4
         with:
           name: node_modules
-          path: node_modules
+          path: .
 
   run-tests:
     runs-on: ubuntu-latest
@@ -44,7 +47,7 @@ jobs:
           name: node_modules
           path: node_modules
 
-      - name: Set execute permissions for node_modules/.bin
+      - name: Set execute permissions for node_modules
         run: chmod -R +x node_modules
 
       - name: Install additional packages
@@ -70,11 +73,11 @@ jobs:
           name: node_modules
           path: node_modules
 
-      - name: Set execute permissions for node_modules/.bin
+      - name: Set execute permissions for node_modules
         run: chmod -R +x node_modules
 
-      - name: Install additional packages
-        run: npm ci --prefer-offline
+#      - name: Install additional packages
+#        run: npm ci --prefer-offline
 
       - name: Build application
         run: npm run build

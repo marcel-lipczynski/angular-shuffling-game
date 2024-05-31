@@ -6,11 +6,6 @@ on:
   pull_request:
     branches: [ "master", "develop" ]
 
-defaults:
-  run:
-    shell: bash
-
-
 jobs:
   install-dependencies:
     runs-on: ubuntu-latest

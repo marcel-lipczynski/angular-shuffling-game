@@ -21,9 +21,6 @@ jobs:
       - name: Install packages
         run: npm ci
 
-      - name: List folders
-        run: ls -ll
-
       - name: Save node_modules as artifact
         uses: actions/upload-artifact@v4
         with:
@@ -41,17 +38,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: List folders
-        run: ls -ll
-
       - name: Download node_modules artifact
         uses: actions/download-artifact@v4
         with:
           name: node_modules
           path: node_modules
 
-      - name: List folders
-        run: ls -ll && ls node_modules
+      - name: Install NX
+        run: npm install nx@19.1.1
 
       - name: Set execute permissions for node_modules
         run: chmod -R +x node_modules
@@ -79,8 +73,8 @@ jobs:
       - name: Set execute permissions for node_modules
         run: chmod -R +x node_modules
 
-#      - name: Install additional packages
-#        run: npm ci --prefer-offline
+      #      - name: Install additional packages
+      #        run: npm ci --prefer-offline
 
       - name: Build application
         run: npm run build

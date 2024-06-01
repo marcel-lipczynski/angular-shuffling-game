@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~18.0.0",
     "@angular/router": "~18.0.0",
     "@nx/angular": "19.1.1",
+    "animate.css": "^4.1.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^28.5.0",
     "eslint-plugin-prettier": "^5.1.3",

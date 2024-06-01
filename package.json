@@ -6,6 +6,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
+    "lint:all": "npm run lint && npm run lint:styles && npm run prettier:check",
     "lint": "nx lint",
     "lint:styles": "stylelint src/**/*.scss",
     "format": "prettier --write .src",

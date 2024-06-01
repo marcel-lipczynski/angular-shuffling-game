@@ -27,7 +27,7 @@ module.exports = [
           'error',
           {
             parser: 'angular',
-            printWidth: 120,
+            printWidth: 80,
             tabWidth: 2,
             singleQuote: true,
             quoteProps: 'preserve',
@@ -65,14 +65,12 @@ module.exports = [
         'prettier/prettier': [
           'error',
           {
-            parser: 'angular',
-            printWidth: 120,
-            tabWidth: 2,
-            embeddedLanguageFormatting: 'off',
-            singleQuote: true,
-            quoteProps: 'preserve',
-            bracketSpacing: true,
-            trailingComma: 'all',
+            'printWidth': 80,
+            'tabWidth': 2,
+            'singleQuote': true,
+            'quoteProps': 'preserve',
+            'bracketSpacing': true,
+            'trailingComma': 'all',
           },
         ],
         'sort-imports': [

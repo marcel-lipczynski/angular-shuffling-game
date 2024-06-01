@@ -49,15 +49,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
         margin: 0;
       }
 
-      *,
-      ::before,
-      ::after {
-        box-sizing: border-box;
-        border-width: 0;
-        border-style: solid;
-        border-color: currentColor;
-      }
-
       h1,
       h2 {
         font-size: inherit;

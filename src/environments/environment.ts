@@ -1,5 +1,5 @@
 import { EnvironmentBase } from './environment.base';
 
 export const environment: EnvironmentBase = {
-  BASE_URL: 'https://www.swapi.tech/api/',
+  BASE_URL: 'https://swapi.dev/api',
 };

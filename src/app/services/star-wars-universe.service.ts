@@ -8,11 +8,8 @@ import {
   DetailedResponse,
   ListResponse,
 } from '../models/api-response.interface';
-import { PersonDetailed, PersonMinimal } from '../models/person.interface';
-import {
-  StarshipDetailed,
-  StarshipMinimal,
-} from '../models/starship.interface';
+import { PersonDetailed } from '../models/person.interface';
+import { StarshipDetailed } from '../models/starship.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -23,12 +20,9 @@ export class StarWarsUniverseService {
     private http: HttpClient,
   ) {}
 
-  public getPeopleList(
-    page = 1,
-    limit = 100,
-  ): Observable<ListResponse<PersonMinimal>> {
-    return this.http.get<ListResponse<PersonMinimal>>(
-      `${this.baseUrl}/people?page=${page}&limit=${limit}}`,
+  public getPeopleList(page = 1): Observable<ListResponse<PersonDetailed>> {
+    return this.http.get<ListResponse<PersonDetailed>>(
+      `${this.baseUrl}/people/?page=${page}`,
     );
   }
 
@@ -42,10 +36,9 @@ export class StarWarsUniverseService {
 
   public getStarshipsList(
     page = 1,
-    limit = 100,
-  ): Observable<ListResponse<StarshipMinimal>> {
-    return this.http.get<ListResponse<StarshipMinimal>>(
-      `${this.baseUrl}/starships?page=${page}&limit=${limit}}`,
+  ): Observable<ListResponse<StarshipDetailed>> {
+    return this.http.get<ListResponse<StarshipDetailed>>(
+      `${this.baseUrl}/starships/?page=${page}`,
     );
   }
 

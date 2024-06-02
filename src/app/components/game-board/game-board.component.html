@@ -1,0 +1,56 @@
+<div class="game-board-container">
+  <div class="game-board-container__resource-selector">
+    <p>Select resource to play with:</p>
+    <mat-radio-group
+      [(ngModel)]="selectedResource"
+      (ngModelChange)="resetSelectedResource()"
+      [disabled]="isSpinning"
+    >
+      <mat-radio-button value="people">People</mat-radio-button>
+      <mat-radio-button value="spaceships">Spaceships</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <mat-grid-list class="grid" cols="5" rowHeight="400px">
+    <mat-grid-tile colspan="2" rowspan="1">
+      <app-game-card
+        [selectedResource]="selectedResource"
+        [gameResource]="playerOneResource"
+      ></app-game-card>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1" rowspan="1">
+      <div class="score-counter">
+        <span class="player-one">{{ gameScore.playerOneScore }}</span>
+        <span class="separator">:</span>
+        <span class="player-two">{{ gameScore.playerTwoScore }}</span>
+      </div>
+      <div>The winner is:</div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2" rowspan="1">
+      <app-game-card
+        [selectedResource]="selectedResource"
+        [gameResource]="playerTwoResource"
+      ></app-game-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div class="game-board-container__action-buttons">
+    <button
+      class="button"
+      mat-flat-button
+      (click)="startDrawing()"
+      [disabled]="isSpinning"
+    >
+      Play
+    </button>
+    <button
+      class="button"
+      color="warn"
+      mat-flat-button
+      (click)="resetScore()"
+      [disabled]="isSpinning"
+    >
+      Reset score
+    </button>
+  </div>
+</div>

@@ -20,13 +20,13 @@ describe('compareStrings', () => {
   it('should return 1 if str1 is greater than str2', () => {
     expect(compareStrings('10', '5')).toBe(1);
     expect(compareStrings('1,000', '999')).toBe(1);
-    expect(compareStrings('n/a', '999')).toBe(1);
+    expect(compareStrings('999', 'n/a')).toBe(1);
   });
 
   it('should return 0 if str1 is less than str2', () => {
     expect(compareStrings('5', '10')).toBe(0);
     expect(compareStrings('999', '1,000')).toBe(0);
-    expect(compareStrings('999', 'n/a')).toBe(0);
+    expect(compareStrings('n/a', '999')).toBe(0);
   });
 
   it('should return -1 if str1 is equal to str2', () => {

@@ -4,12 +4,10 @@ import { RouterModule } from '@angular/router';
 
 import { GameBoardComponent } from './components/game-board/game-board.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 @Component({
   standalone: true,
   imports: [
-    NxWelcomeComponent,
     RouterModule,
     NgForOf,
     NgClass,

@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EMPTY } from 'rxjs';
 
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { StarWarsUniverseService } from './services/star-wars-universe.service';
 
 describe('AppComponent', () => {
@@ -13,7 +12,7 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, NxWelcomeComponent, RouterTestingModule],
+      imports: [AppComponent, RouterTestingModule],
       providers: [
         {
           provide: StarWarsUniverseService,

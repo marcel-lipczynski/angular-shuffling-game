@@ -11,7 +11,7 @@ import { PersonDetailed } from '../../models/person.interface';
 import { PlayableResource } from '../../models/playable-resource.type';
 import { StarshipDetailed } from '../../models/starship.interface';
 import { StarWarsUniverseService } from '../../services/star-wars-universe.service';
-import { parseStringToInt } from '../../utils/integer-parser.utils';
+import { compareStrings } from '../../utils/integer-parser.utils';
 import { GameCardComponent } from '../game-card/game-card.component';
 
 interface Score {
@@ -82,41 +82,39 @@ export class GameBoardComponent implements OnInit {
   }
 
   private shuffleResources() {
+    let resources: (PersonDetailed | StarshipDetailed)[];
+
     if (this.selectedResource === 'people') {
-      this.allPeople = _.shuffle(this.allPeople);
-      this.playerOneResource = this.allPeople[0];
-      this.playerTwoResource = this.allPeople[1];
+      resources = _.shuffle(this.allPeople);
     } else {
-      this.allStarships = _.shuffle(this.allStarships);
-      this.playerOneResource = this.allStarships[0];
-      this.playerTwoResource = this.allStarships[1];
+      resources = _.shuffle(this.allStarships);
     }
+
+    this.playerOneResource = resources[0];
+    this.playerTwoResource = resources[1];
   }
 
   chooseWinner() {
-    if (this.selectedResource === 'people') {
-      this.winner =
-        parseStringToInt((this.playerOneResource as PersonDetailed).mass) >
-        parseStringToInt((this.playerTwoResource as PersonDetailed).mass)
-          ? this.playerOneResource
-          : this.playerTwoResource;
-    } else {
-      this.winner =
-        parseStringToInt(
-          (this.playerOneResource as StarshipDetailed).passengers,
-        ) >
-        parseStringToInt(
-          (this.playerTwoResource as StarshipDetailed).passengers,
-        )
-          ? this.playerOneResource
-          : this.playerTwoResource;
-    }
+    const playerOneValue = this.getProperty(this.playerOneResource);
+    const playerTwoValue = this.getProperty(this.playerTwoResource);
+
+    const comparisonValue = compareStrings(playerOneValue, playerTwoValue);
+
+    if (comparisonValue === 1) this.winner = this.playerOneResource;
+    else if (comparisonValue === 0) this.winner = this.playerTwoResource;
+    else this.winner = undefined;
+  }
+
+  private getProperty(resource?: PersonDetailed | StarshipDetailed): string {
+    return this.selectedResource === 'people'
+      ? (resource as PersonDetailed).mass
+      : (resource as StarshipDetailed).passengers;
   }
 
   increaseScore() {
     if (this.winner === this.playerOneResource) {
       this.gameScore.playerOneScore++;
-    } else {
+    } else if (this.winner === this.playerTwoResource) {
       this.gameScore.playerTwoScore++;
     }
   }
@@ -131,5 +129,7 @@ export class GameBoardComponent implements OnInit {
       playerOneScore: 0,
       playerTwoScore: 0,
     };
+
+    this.resetSelectedResource();
   }
 }

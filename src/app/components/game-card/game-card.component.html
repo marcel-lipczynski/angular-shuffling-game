@@ -1,9 +1,6 @@
 <mat-card class="game-card" *ngIf="gameResource; else pressPlayTmp">
   <mat-card-header>
     <mat-card-title> Name: {{ gameResource?.name }}</mat-card-title>
-    <mat-card-subtitle
-      >Resource Type: {{ selectedResource | uppercase }}</mat-card-subtitle
-    >
   </mat-card-header>
   <mat-card-content>
     <p *ngIf="isStarship(gameResource)">

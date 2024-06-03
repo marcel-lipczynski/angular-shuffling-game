@@ -8,11 +8,13 @@
   ></app-actions-bar>
   <div class="card-grid">
     <app-game-card
-      *ngFor="let person of allPeople"
-      (click)="selectResource(person)"
-      [gameResource]="person"
+      *ngFor="let resource of currentResources"
+      (click)="selectResource(resource)"
+      [gameResource]="resource"
       [selectedResource]="selectedResource"
-      [isFlipped]="person === playerOneResource || person === playerTwoResource"
+      [isFlipped]="
+        resource === playerOneResource || resource === playerTwoResource
+      "
     ></app-game-card>
   </div>
 </div>

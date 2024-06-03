@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAnchor, MatButton } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -53,10 +53,7 @@ export class GameBoardComponent implements OnInit {
 
   selectedResource: PlayableResource = 'people';
 
-  constructor(
-    private readonly starWarsService: StarWarsUniverseService,
-    private readonly cdr: ChangeDetectorRef,
-  ) {}
+  constructor(private readonly starWarsService: StarWarsUniverseService) {}
 
   ngOnInit() {
     this.starWarsService
@@ -132,7 +129,15 @@ export class GameBoardComponent implements OnInit {
     ) {
       this.playerTwoResource = selectedResource;
       this.chooseWinner();
-      this.cdr.detectChanges();
     }
+  }
+
+  get currentResources(): Array<PersonDetailed | StarshipDetailed> {
+    if (this.allPeople && this.selectedResource === 'people') {
+      return this.allPeople;
+    } else if (this.allStarships && this.selectedResource === 'starships') {
+      return this.allStarships;
+    }
+    return [];
   }
 }

@@ -14,8 +14,8 @@
 
     .profile-picture {
       overflow: hidden;
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       background: white;
       margin-bottom: 1rem;
       border-radius: 50%;
@@ -52,5 +52,9 @@
     display: block;
     border: 2px solid white;
     border-radius: 6px;
+
+    mat-card-content {
+      padding: 0
+    }
   }
 }

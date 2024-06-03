@@ -17,6 +17,8 @@ import { StarshipDetailed } from '../../models/starship.interface';
 export class GameCardComponent {
   @Input() gameResource?: PersonDetailed | StarshipDetailed;
 
+  @Input() winner?: PersonDetailed | StarshipDetailed;
+
   @Input() selectedResource!: PlayableResource;
 
   @Input() isFlipped = false;

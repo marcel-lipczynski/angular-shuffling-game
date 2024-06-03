@@ -41,6 +41,13 @@
       transition-delay: 0.2s;
     }
 
+    .winner {
+      border: 2px solid gold;
+      transition: 1.5s;
+      transform: scale(1.4);
+      z-index: 100;
+    }
+
     .back {
       transform: rotateY(90deg);
       transition-delay: 0s;

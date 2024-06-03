@@ -1,6 +1,6 @@
 <div class="card">
   <div [ngClass]="{ 'flipped': isFlipped }">
-    <mat-card class="front">
+    <mat-card class="front" [ngClass]="{ 'winner': winner === gameResource }">
       <mat-card-header class="card__header">
         <div class="profile-picture">
           <img

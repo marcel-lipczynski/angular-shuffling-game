@@ -11,6 +11,7 @@
       *ngFor="let resource of currentResources"
       (click)="selectResource(resource)"
       [gameResource]="resource"
+      [winner]="winner"
       [selectedResource]="selectedResource"
       [isFlipped]="
         resource === playerOneResource || resource === playerTwoResource

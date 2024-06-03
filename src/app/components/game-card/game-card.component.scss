@@ -12,7 +12,6 @@
       background: white;
       border-radius: 50%;
     }
-
   }
 
   &__image {
@@ -20,11 +19,6 @@
     display: block;
     border: 2px solid white;
     border-radius: 6px;
-  }
-
-
-  mat-card {
-
   }
 
   .front {
@@ -57,4 +51,3 @@
   transform: rotateY(90deg);
   transition-delay: 0s;
 }
-

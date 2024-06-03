@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAnchor, MatButton } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -12,6 +12,7 @@ import { PlayableResource } from '../../models/playable-resource.type';
 import { StarshipDetailed } from '../../models/starship.interface';
 import { StarWarsUniverseService } from '../../services/star-wars-universe.service';
 import { compareStrings } from '../../utils/integer-parser.utils';
+import { ActionsBarComponent } from '../actions-bar/actions-bar.component';
 import { GameCardComponent } from '../game-card/game-card.component';
 
 interface Score {
@@ -32,6 +33,7 @@ interface Score {
     MatSlideToggle,
     FormsModule,
     NgOptimizedImage,
+    ActionsBarComponent,
   ],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
@@ -49,11 +51,12 @@ export class GameBoardComponent implements OnInit {
 
   winner?: PersonDetailed | StarshipDetailed;
 
-  shuffleInterval: any;
-
   selectedResource: PlayableResource = 'people';
 
-  constructor(private readonly starWarsService: StarWarsUniverseService) {}
+  constructor(
+    private readonly starWarsService: StarWarsUniverseService,
+    private readonly cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.starWarsService
@@ -67,43 +70,27 @@ export class GameBoardComponent implements OnInit {
       .subscribe((peopleResponse) => (this.allPeople = peopleResponse.results));
   }
 
-  startDrawing() {
-    this.isSpinning = true;
-
-    this.shuffleInterval = setInterval(() => {
-      this.shuffleResources();
-    }, 50);
-
-    setTimeout(() => {
-      clearInterval(this.shuffleInterval);
-      this.isSpinning = false;
-      this.chooseWinner();
-      this.increaseScore();
-    }, 3000);
-  }
-
   private shuffleResources() {
-    let resources: (PersonDetailed | StarshipDetailed)[];
-
     if (this.selectedResource === 'people') {
-      resources = _.shuffle(this.allPeople);
+      this.allPeople = _.shuffle(this.allPeople);
     } else {
-      resources = _.shuffle(this.allStarships);
+      this.allStarships = _.shuffle(this.allStarships);
     }
-
-    this.playerOneResource = resources[0];
-    this.playerTwoResource = resources[1];
   }
 
-  chooseWinner() {
+  private chooseWinner() {
     const playerOneValue = this.getProperty(this.playerOneResource);
     const playerTwoValue = this.getProperty(this.playerTwoResource);
+
+    console.log(playerOneValue, playerTwoValue);
 
     const comparisonValue = compareStrings(playerOneValue, playerTwoValue);
 
     if (comparisonValue === 1) this.winner = this.playerOneResource;
     else if (comparisonValue === 0) this.winner = this.playerTwoResource;
     else this.winner = undefined;
+
+    this.increaseScore();
   }
 
   private getProperty(resource?: PersonDetailed | StarshipDetailed): string {
@@ -112,7 +99,7 @@ export class GameBoardComponent implements OnInit {
       : (resource as StarshipDetailed).passengers;
   }
 
-  increaseScore() {
+  private increaseScore() {
     if (this.winner === this.playerOneResource) {
       this.gameScore.playerOneScore++;
     } else if (this.winner === this.playerTwoResource) {
@@ -123,6 +110,8 @@ export class GameBoardComponent implements OnInit {
   resetSelectedResource() {
     this.playerOneResource = undefined;
     this.playerTwoResource = undefined;
+
+    setTimeout(() => this.shuffleResources(), 500);
   }
 
   resetScore() {
@@ -142,6 +131,8 @@ export class GameBoardComponent implements OnInit {
       selectedResource !== this.playerOneResource
     ) {
       this.playerTwoResource = selectedResource;
+      this.chooseWinner();
+      this.cdr.detectChanges();
     }
   }
 }

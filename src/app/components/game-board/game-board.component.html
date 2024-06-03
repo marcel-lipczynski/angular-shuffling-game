@@ -1,9 +1,18 @@
-<div class="card-grid">
-  <app-game-card
-    *ngFor="let person of allPeople"
-    (click)="selectResource(person)"
-    [gameResource]="person"
-    [selectedResource]="selectedResource"
-    [isFlipped]="person === playerOneResource || person === playerTwoResource"
-  ></app-game-card>
+<div>
+  <app-actions-bar
+    [gameScore]="gameScore"
+    (resourceChanged)="selectedResource = $event"
+    (resetScore)="resetScore()"
+    (playAgain)="resetSelectedResource()"
+    [isPlaying]="!!playerOneResource || !!playerTwoResource"
+  ></app-actions-bar>
+  <div class="card-grid">
+    <app-game-card
+      *ngFor="let person of allPeople"
+      (click)="selectResource(person)"
+      [gameResource]="person"
+      [selectedResource]="selectedResource"
+      [isFlipped]="person === playerOneResource || person === playerTwoResource"
+    ></app-game-card>
+  </div>
 </div>

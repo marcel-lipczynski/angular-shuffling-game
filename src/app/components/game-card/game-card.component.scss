@@ -1,6 +1,13 @@
 .card {
   position: relative;
 
+  &__image {
+    width: 100%;
+    display: block;
+    border: 2px solid white;
+    border-radius: 6px;
+  }
+
   &__header {
     display: flex;
     justify-content: center;
@@ -10,15 +17,9 @@
       width: 100px;
       height: 100px;
       background: white;
+      margin-bottom: 1rem;
       border-radius: 50%;
     }
-  }
-
-  &__image {
-    width: 100%;
-    display: block;
-    border: 2px solid white;
-    border-radius: 6px;
   }
 
   .front {
@@ -33,6 +34,18 @@
     transition-delay: 0.2s;
   }
 
+  .flipped {
+    .front {
+      transform: rotateY(0deg);
+      transition-delay: 0.2s;
+    }
+
+    .back {
+      transform: rotateY(90deg);
+      transition-delay: 0s;
+    }
+  }
+
   mat-card {
     height: 200px;
     width: 100%;
@@ -40,14 +53,4 @@
     border: 2px solid white;
     border-radius: 6px;
   }
-}
-
-.flipped .front {
-  transform: rotateY(0deg);
-  transition-delay: 0.2s;
-}
-
-.flipped .back {
-  transform: rotateY(90deg);
-  transition-delay: 0s;
 }

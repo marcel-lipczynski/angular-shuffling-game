@@ -29,6 +29,7 @@
   }
 
   .back {
+    cursor: pointer;
     transform: rotateY(0deg);
     transition: all ease-in 0.2s;
     transition-delay: 0.2s;

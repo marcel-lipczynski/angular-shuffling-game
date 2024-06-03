@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAnchor, MatButton } from '@angular/material/button';
@@ -31,6 +31,7 @@ interface Score {
     GameCardComponent,
     MatSlideToggle,
     FormsModule,
+    NgOptimizedImage,
   ],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
@@ -131,5 +132,16 @@ export class GameBoardComponent implements OnInit {
     };
 
     this.resetSelectedResource();
+  }
+
+  selectResource(selectedResource: PersonDetailed | StarshipDetailed) {
+    if (this.playerOneResource === undefined) {
+      this.playerOneResource = selectedResource;
+    } else if (
+      this.playerTwoResource === undefined &&
+      selectedResource !== this.playerOneResource
+    ) {
+      this.playerTwoResource = selectedResource;
+    }
   }
 }

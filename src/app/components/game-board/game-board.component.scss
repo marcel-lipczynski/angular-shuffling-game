@@ -1,55 +1,62 @@
-.game-board-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 64px);
-  padding: 20px;
+//.game-board-container {
+//  display: flex;
+//  flex-direction: column;
+//  align-items: center;
+//  justify-content: center;
+//  height: calc(100vh - 64px);
+//  padding: 20px;
+//
+//  &__resource-selector {
+//    margin-bottom: 10px;
+//  }
+//
+//  .player-one-label {
+//    font-size: 48px;
+//    color: red;
+//  }
+//
+//  .player-two-label {
+//    font-size: 48px;
+//    color: blue;
+//  }
+//
+//  .grid {
+//    width: 100%;
+//  }
+//
+//  .score-counter {
+//    display: flex;
+//    align-items: center;
+//    font-size: 60px;
+//    font-weight: bold;
+//    color: #333;
+//
+//    .player-one {
+//      color: red;
+//    }
+//
+//    .player-two {
+//      color: blue;
+//    }
+//
+//    .separator {
+//      font-size: 48px;
+//      margin: 0 20px;
+//    }
+//  }
+//
+//  &__action-buttons {
+//    padding: 20px;
+//
+//    .button {
+//      margin: 0 5px;
+//    }
+//  }
+//}
 
-  &__resource-selector {
-    margin-bottom: 10px;
-  }
-
-  .player-one-label {
-    font-size: 48px;
-    color: red;
-  }
-
-  .player-two-label {
-    font-size: 48px;
-    color: blue;
-  }
-
-  .grid {
-    width: 100%;
-  }
-
-  .score-counter {
-    display: flex;
-    align-items: center;
-    font-size: 60px;
-    font-weight: bold;
-    color: #333;
-
-    .player-one {
-      color: red;
-    }
-
-    .player-two {
-      color: blue;
-    }
-
-    .separator {
-      font-size: 48px;
-      margin: 0 20px;
-    }
-  }
-
-  &__action-buttons {
-    padding: 20px;
-
-    .button {
-      margin: 0 5px;
-    }
-  }
+.card-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
 }

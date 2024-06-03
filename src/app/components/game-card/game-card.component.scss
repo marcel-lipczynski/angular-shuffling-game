@@ -1,14 +1,60 @@
-.game-card {
-  min-width: 400px;
-  max-width: 400px;
-  height: 200px;
-  margin: 20px;
+.card {
+  position: relative;
+
+  &__header {
+    display: flex;
+    justify-content: center;
+
+    .profile-picture {
+      overflow: hidden;
+      width: 100px;
+      height: 100px;
+      background: white;
+      border-radius: 50%;
+    }
+
+  }
+
+  &__image {
+    width: 100%;
+    display: block;
+    border: 2px solid white;
+    border-radius: 6px;
+  }
+
+
+  mat-card {
+
+  }
+
+  .front {
+    transform: rotateY(90deg);
+    transition: all ease-in 0.2s;
+    position: absolute;
+  }
+
+  .back {
+    transform: rotateY(0deg);
+    transition: all ease-in 0.2s;
+    transition-delay: 0.2s;
+  }
+
+  mat-card {
+    height: 200px;
+    width: 100%;
+    display: block;
+    border: 2px solid white;
+    border-radius: 6px;
+  }
 }
 
-mat-card-title {
-  color: grey;
+.flipped .front {
+  transform: rotateY(0deg);
+  transition-delay: 0.2s;
 }
 
-p {
-  color: antiquewhite;
+.flipped .back {
+  transform: rotateY(90deg);
+  transition-delay: 0s;
 }
+

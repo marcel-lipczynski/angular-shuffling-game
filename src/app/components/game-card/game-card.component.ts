@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
@@ -14,10 +14,16 @@ import { StarshipDetailed } from '../../models/starship.interface';
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.scss',
 })
-export class GameCardComponent {
+export class GameCardComponent implements OnChanges {
   @Input() gameResource?: PersonDetailed | StarshipDetailed;
 
   @Input() selectedResource!: PlayableResource;
+
+  @Input() isFlipped = false;
+
+  ngOnChanges() {
+    console.log(this.isFlipped);
+  }
 
   isStarship(
     gameResource: PersonDetailed | StarshipDetailed,

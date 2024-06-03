@@ -1,15 +1,39 @@
-<mat-card class="game-card" *ngIf="gameResource; else pressPlayTmp">
-  <mat-card-header>
-    <mat-card-title> Name: {{ gameResource?.name }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p *ngIf="isStarship(gameResource)">
-      Passengers: {{ gameResource.passengers }}
-    </p>
-    <p *ngIf="!isStarship(gameResource)">Mass: {{ gameResource.mass }}kg</p>
-  </mat-card-content>
-</mat-card>
+<!--<mat-card class="game-card" *ngIf="gameResource; else pressPlayTmp">-->
+<!--  <mat-card-header>-->
+<!--    <mat-card-title> Name: {{ gameResource.name }}</mat-card-title>-->
+<!--  </mat-card-header>-->
+<!--  <mat-card-content>-->
+<!--    <p *ngIf="isStarship(gameResource)">-->
+<!--      Passengers: {{ gameResource.passengers }}-->
+<!--    </p>-->
+<!--    <p *ngIf="!isStarship(gameResource)">Mass: {{ gameResource.mass }}kg</p>-->
+<!--  </mat-card-content>-->
+<!--</mat-card>-->
 
-<ng-template #pressPlayTmp>
-  <div>Press Play to draw {{ selectedResource }}!</div>
-</ng-template>
+<!--<ng-template #pressPlayTmp>-->
+<!--  <div>Press Play to draw {{ selectedResource }}!</div>-->
+<!--</ng-template>-->
+<div class="card">
+  <div [ngClass]="{ 'flipped': isFlipped }">
+    <mat-card class="front">
+      <mat-card-header class="card__header">
+        <div class="profile-picture">
+          <img
+            ngSrc="/img/falcon-millenium.png"
+            alt="card front"
+            width="100"
+            height="100"
+          />
+        </div>
+      </mat-card-header>
+      <mat-card-content>{{ gameResource?.name }}</mat-card-content>
+    </mat-card>
+    <img
+      class="card__image back"
+      ngSrc="/img/card-cover.png"
+      height="200"
+      width="200"
+      alt="card back"
+    />
+  </div>
+</div>

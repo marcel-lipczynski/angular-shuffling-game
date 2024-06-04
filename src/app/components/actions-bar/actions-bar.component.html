@@ -23,8 +23,8 @@
     <mat-button-toggle-group
       name="playableResource"
       [disabled]="isPlaying"
-      [(ngModel)]="playableResource"
-      (ngModelChange)="resourceChanged.emit(playableResource)"
+      [(ngModel)]="gameMode"
+      (ngModelChange)="gameModeChanged.emit(gameMode)"
     >
       <mat-button-toggle value="people">People</mat-button-toggle>
       <mat-button-toggle value="starships">Starships</mat-button-toggle>

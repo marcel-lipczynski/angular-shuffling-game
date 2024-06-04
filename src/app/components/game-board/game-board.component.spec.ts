@@ -9,8 +9,8 @@ import { EMPTY, of } from 'rxjs';
 
 import { GameBoardComponent } from './game-board.component';
 import { ListResponse } from '../../models/api-response.interface';
-import { PersonDetailed } from '../../models/person.interface';
-import { StarshipDetailed } from '../../models/starship.interface';
+import { Person } from '../../models/person.interface';
+import { Starship } from '../../models/starship.interface';
 import { StarWarsUniverseService } from '../../services/star-wars-universe.service';
 
 describe('GameBoardComponent', () => {
@@ -49,12 +49,10 @@ describe('GameBoardComponent', () => {
 
     jest
       .spyOn(starWarsUniverseService, 'getStarshipsList')
-      .mockReturnValue(
-        of({ results: starships } as ListResponse<StarshipDetailed>),
-      );
+      .mockReturnValue(of({ results: starships } as ListResponse<Starship>));
     jest
       .spyOn(starWarsUniverseService, 'getPeopleList')
-      .mockReturnValue(of({ results: people } as ListResponse<PersonDetailed>));
+      .mockReturnValue(of({ results: people } as ListResponse<Person>));
 
     component.ngOnInit();
 
@@ -66,10 +64,10 @@ describe('GameBoardComponent', () => {
     const starships = [
       { name: 'Starship 1' },
       { name: 'Starship 2' },
-    ] as StarshipDetailed[];
+    ] as Starship[];
     component.allStarships = starships;
 
-    component.selectedResource = 'starships';
+    component.selectedMode = 'starships';
     component['shuffleResources']();
 
     expect(component.playerOneResource).toBeDefined();
@@ -79,13 +77,13 @@ describe('GameBoardComponent', () => {
   });
 
   it('should correctly shuffle resources for People objects', () => {
-    const people: PersonDetailed[] = [
+    const people: Person[] = [
       { name: 'Person 1', mass: '100' },
       { name: 'Person 2', mass: '200' },
-    ] as PersonDetailed[];
+    ] as Person[];
     component.allPeople = people;
 
-    component.selectedResource = 'people';
+    component.selectedMode = 'people';
     component['shuffleResources']();
 
     expect(component.playerOneResource).toBeDefined();
@@ -95,44 +93,44 @@ describe('GameBoardComponent', () => {
   });
 
   it('should choose player two as the winner if comparison value is 0', () => {
-    const playerOne = { name: 'Person 1', mass: '100' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '200' } as PersonDetailed;
+    const playerOne = { name: 'Person 1', mass: '100' } as Person;
+    const playerTwo = { name: 'Person 2', mass: '200' } as Person;
 
     component.playerOneResource = playerOne;
     component.playerTwoResource = playerTwo;
-    component.selectedResource = 'people';
+    component.selectedMode = 'people';
     component.chooseWinner();
 
     expect(component.winner).toEqual(playerTwo);
   });
 
   it('should choose player one as the winner if comparison value is 1', () => {
-    const playerOne = { name: 'Person 1', mass: '200' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '100' } as PersonDetailed;
+    const playerOne = { name: 'Person 1', mass: '200' } as Person;
+    const playerTwo = { name: 'Person 2', mass: '100' } as Person;
 
     component.playerOneResource = playerOne;
     component.playerTwoResource = playerTwo;
-    component.selectedResource = 'people';
+    component.selectedMode = 'people';
     component.chooseWinner();
 
     expect(component.winner).toEqual(playerOne);
   });
 
   it('should not set a winner if comparison value is neither 1 nor 0', () => {
-    const playerOne = { name: 'Person 1', mass: '100' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '100' } as PersonDetailed;
+    const playerOne = { name: 'Person 1', mass: '100' } as Person;
+    const playerTwo = { name: 'Person 2', mass: '100' } as Person;
 
     component.playerOneResource = playerOne;
     component.playerTwoResource = playerTwo;
-    component.selectedResource = 'people';
+    component.selectedMode = 'people';
     component.chooseWinner();
 
     expect(component.winner).toBeUndefined();
   });
 
   it('should correctly increase the score when player two wins', () => {
-    const playerOne = { name: 'Person 1', mass: '100' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '200' } as PersonDetailed;
+    const playerOne = { name: 'Person 1', mass: '100' } as Person;
+    const playerTwo = { name: 'Person 2', mass: '200' } as Person;
 
     component.winner = playerTwo;
     component.playerOneResource = playerOne;
@@ -144,8 +142,8 @@ describe('GameBoardComponent', () => {
   });
 
   it('should correctly increase the score when player one wins', () => {
-    const playerOne = { name: 'Person 1', mass: '200' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '100' } as PersonDetailed;
+    const playerOne = { name: 'Person 1', mass: '200' } as Person;
+    const playerTwo = { name: 'Person 2', mass: '100' } as Person;
 
     component.winner = playerOne;
     component.playerOneResource = playerOne;
@@ -157,8 +155,8 @@ describe('GameBoardComponent', () => {
   });
 
   it('should correctly reset the selected resource', () => {
-    component.playerOneResource = { name: 'Person 1' } as PersonDetailed;
-    component.playerTwoResource = { name: 'Person 2' } as PersonDetailed;
+    component.playerOneResource = { name: 'Person 1' } as Person;
+    component.playerTwoResource = { name: 'Person 2' } as Person;
 
     component.resetSelectedResource();
 
@@ -188,8 +186,8 @@ describe('GameBoardComponent', () => {
 
   it('should correctly reset the score and selected resources', () => {
     component.gameScore = { playerOneScore: 2, playerTwoScore: 1 };
-    component.playerOneResource = { name: 'Player One' } as PersonDetailed;
-    component.playerTwoResource = { name: 'Player Two' } as PersonDetailed;
+    component.playerOneResource = { name: 'Player One' } as Person;
+    component.playerTwoResource = { name: 'Player Two' } as Person;
 
     component.resetScore();
 
@@ -200,14 +198,14 @@ describe('GameBoardComponent', () => {
   });
 
   it('should return the mass property for people', () => {
-    const person = { name: 'Person', mass: '100' } as PersonDetailed;
+    const person = { name: 'Person', mass: '100' } as Person;
     const result = component['getProperty'](person);
     expect(result).toBe('100');
   });
 
   it('should return the passengers property for starships', () => {
-    const starship = { name: 'Starship', passengers: '10' } as StarshipDetailed;
-    component.selectedResource = 'starships';
+    const starship = { name: 'Starship', passengers: '10' } as Starship;
+    component.selectedMode = 'starships';
     const result = component['getProperty'](starship);
     expect(result).toBe('10');
   });

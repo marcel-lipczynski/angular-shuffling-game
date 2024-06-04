@@ -16,9 +16,9 @@
         >{{ gameResource.name }}
         <p>
           {{
-            isStarship(gameResource)
-              ? 'Passengers: ' + gameResource.passengers
-              : 'Mass: ' + gameResource.mass
+            (selectedResource === 'people' ? 'Mass' : 'Passengers') +
+              ': ' +
+              gameResource.detailAttribute
           }}
         </p></mat-card-content
       >

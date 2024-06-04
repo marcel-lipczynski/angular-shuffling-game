@@ -6,10 +6,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import _ from 'lodash';
+// eslint-disable-next-line import/namespace
+import { map } from 'rxjs';
 
-import { PersonDetailed } from '../../models/person.interface';
-import { PlayableResource } from '../../models/playable-resource.type';
-import { StarshipDetailed } from '../../models/starship.interface';
+import {
+  GameMode,
+  GameResource,
+  GameResourcesByMode,
+} from '../../models/game-resource.model';
 import { StarWarsUniverseService } from '../../services/star-wars-universe.service';
 import { compareStrings } from '../../utils/integer-parser.utils';
 import { ActionsBarComponent } from '../actions-bar/actions-bar.component';
@@ -39,45 +43,55 @@ interface Score {
   styleUrl: './game-board.component.scss',
 })
 export class GameBoardComponent implements OnInit {
-  isSpinning = false;
+  selectedMode: GameMode = 'people';
 
   gameScore: Score = { playerOneScore: 0, playerTwoScore: 0 };
 
-  allPeople?: PersonDetailed[];
-  allStarships?: StarshipDetailed[];
+  gameResources: GameResourcesByMode = {
+    'people': [],
+    'starships': [],
+  };
 
-  playerOneResource?: PersonDetailed | StarshipDetailed;
-  playerTwoResource?: PersonDetailed | StarshipDetailed;
+  playerOneResource?: GameResource;
+  playerTwoResource?: GameResource;
 
-  winner?: PersonDetailed | StarshipDetailed;
-
-  selectedResource: PlayableResource = 'people';
+  winner?: GameResource;
 
   constructor(private readonly starWarsService: StarWarsUniverseService) {}
 
   ngOnInit() {
     this.starWarsService
       .getStarshipsList()
-      .subscribe(
-        (starshipsResponse) => (this.allStarships = starshipsResponse.results),
-      );
+      .pipe(
+        map((starshipsResponse) => {
+          return starshipsResponse.results.map(
+            (starship) => new GameResource(starship.name, starship.passengers),
+          );
+        }),
+      )
+      .subscribe((starships) => (this.gameResources['starships'] = starships));
 
     this.starWarsService
       .getPeopleList()
-      .subscribe((peopleResponse) => (this.allPeople = peopleResponse.results));
+      .pipe(
+        map((peopleResponse) => {
+          return peopleResponse.results.map(
+            (person) => new GameResource(person.name, person.mass),
+          );
+        }),
+      )
+      .subscribe((people) => (this.gameResources['people'] = people));
   }
 
   private shuffleResources() {
-    if (this.selectedResource === 'people') {
-      this.allPeople = _.shuffle(this.allPeople);
-    } else {
-      this.allStarships = _.shuffle(this.allStarships);
-    }
+    this.gameResources[this.selectedMode] = _.shuffle(
+      this.gameResources[this.selectedMode],
+    );
   }
 
   private chooseWinner() {
-    const playerOneValue = this.getProperty(this.playerOneResource);
-    const playerTwoValue = this.getProperty(this.playerTwoResource);
+    const playerOneValue = this.playerOneResource?.detailAttribute;
+    const playerTwoValue = this.playerTwoResource?.detailAttribute;
 
     const comparisonValue = compareStrings(playerOneValue, playerTwoValue);
 
@@ -88,12 +102,6 @@ export class GameBoardComponent implements OnInit {
     this.increaseScore();
   }
 
-  private getProperty(resource?: PersonDetailed | StarshipDetailed): string {
-    return this.selectedResource === 'people'
-      ? (resource as PersonDetailed).mass
-      : (resource as StarshipDetailed).passengers;
-  }
-
   private increaseScore() {
     if (this.winner === this.playerOneResource) {
       this.gameScore.playerOneScore++;
@@ -102,9 +110,10 @@ export class GameBoardComponent implements OnInit {
     }
   }
 
-  resetSelectedResource() {
+  resetSelectedResources() {
     this.playerOneResource = undefined;
     this.playerTwoResource = undefined;
+    this.winner = undefined;
 
     setTimeout(() => this.shuffleResources(), 500);
   }
@@ -115,10 +124,10 @@ export class GameBoardComponent implements OnInit {
       playerTwoScore: 0,
     };
 
-    this.resetSelectedResource();
+    this.resetSelectedResources();
   }
 
-  selectResource(selectedResource: PersonDetailed | StarshipDetailed) {
+  selectResource(selectedResource: GameResource) {
     if (this.playerOneResource === undefined) {
       this.playerOneResource = selectedResource;
     } else if (
@@ -128,14 +137,5 @@ export class GameBoardComponent implements OnInit {
       this.playerTwoResource = selectedResource;
       this.chooseWinner();
     }
-  }
-
-  get currentResources(): Array<PersonDetailed | StarshipDetailed> {
-    if (this.allPeople && this.selectedResource === 'people') {
-      return this.allPeople;
-    } else if (this.allStarships && this.selectedResource === 'starships') {
-      return this.allStarships;
-    }
-    return [];
   }
 }

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameCardComponent } from './game-card.component';
-import { PersonDetailed } from '../../models/person.interface';
-import { StarshipDetailed } from '../../models/starship.interface';
+import { Person } from '../../models/person.interface';
+import { Starship } from '../../models/starship.interface';
 
 describe('GameCardComponent', () => {
   let component: GameCardComponent;
@@ -26,12 +26,12 @@ describe('GameCardComponent', () => {
     const starship = {
       name: 'Millennium Falcon',
       passengers: '10',
-    } as StarshipDetailed;
+    } as Starship;
     expect(component.isStarship(starship)).toBe(true);
 
     const person = {
       name: 'Luke Skywalker',
-    } as PersonDetailed;
+    } as Person;
     expect(component.isStarship(person)).toBe(false);
   });
 });

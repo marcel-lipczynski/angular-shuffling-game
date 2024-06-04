@@ -1,18 +1,18 @@
 <div>
   <app-actions-bar
     [gameScore]="gameScore"
-    (resourceChanged)="selectedResource = $event"
+    (gameModeChanged)="selectedMode = $event"
     (resetScore)="resetScore()"
-    (playAgain)="resetSelectedResource()"
+    (playAgain)="resetSelectedResources()"
     [isPlaying]="!!playerOneResource || !!playerTwoResource"
   ></app-actions-bar>
   <div class="card-grid">
     <app-game-card
-      *ngFor="let resource of currentResources"
+      *ngFor="let resource of gameResources[selectedMode]"
       (click)="selectResource(resource)"
       [gameResource]="resource"
       [winner]="winner"
-      [selectedResource]="selectedResource"
+      [selectedResource]="selectedMode"
       [isFlipped]="
         resource === playerOneResource || resource === playerTwoResource
       "

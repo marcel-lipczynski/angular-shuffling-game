@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-import { PlayableResource } from '../../models/playable-resource.type';
+import { GameMode } from '../../models/game-resource.model';
 
 @Component({
   selector: 'app-actions-bar',
@@ -21,12 +21,11 @@ import { PlayableResource } from '../../models/playable-resource.type';
 })
 export class ActionsBarComponent {
   @Input() gameScore = { playerOneScore: 0, playerTwoScore: 0 };
-
   @Input() isPlaying = false;
 
-  @Output() resourceChanged = new EventEmitter<PlayableResource>();
+  @Output() gameModeChanged = new EventEmitter<GameMode>();
   @Output() resetScore = new EventEmitter<void>();
   @Output() playAgain = new EventEmitter<void>();
 
-  playableResource: PlayableResource = 'people';
+  gameMode: GameMode = 'people';
 }

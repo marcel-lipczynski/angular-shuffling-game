@@ -31,7 +31,7 @@
   }
 }
 
-@media only screen and (max-width: 620px) {
+@media only screen and (width <= 620px) {
   .actions-bar {
     .action-buttons {
       flex-direction: column;

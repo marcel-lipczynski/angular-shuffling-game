@@ -3,13 +3,13 @@
   margin: 20px auto;
 }
 
-@media only screen and (max-width: 860px) {
+@media only screen and (width <= 860px) {
   .app-container {
     max-width: 620px;
   }
 }
 
-@media only screen and (max-width: 620px) {
+@media only screen and (width <= 620px) {
   .app-container {
     max-width: 420px;
   }

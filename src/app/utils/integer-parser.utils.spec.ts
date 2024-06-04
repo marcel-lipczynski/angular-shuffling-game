@@ -34,4 +34,11 @@ describe('compareStrings', () => {
     expect(compareStrings('1,000', '1,000')).toBe(-1);
     expect(compareStrings('n/a', 'n/a')).toBe(-1);
   });
+
+  it('should return if str1 or str2 were not specified', () => {
+    expect(compareStrings('', '123')).toBe(-1);
+    expect(compareStrings('123')).toBe(-1);
+    expect(compareStrings('', '')).toBe(-1);
+    expect(compareStrings()).toBe(-1);
+  });
 });

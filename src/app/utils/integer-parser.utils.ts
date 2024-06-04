@@ -1,5 +1,5 @@
 export const parseStringToInt = (str: string): number => {
-  if (str.toLowerCase() === 'n/a') {
+  if (str.toLowerCase() === 'n/a' || str === '') {
     return 0;
   }
 
@@ -7,7 +7,11 @@ export const parseStringToInt = (str: string): number => {
   return parseInt(cleanedStr, 10); // Convert to an integer
 };
 
-export const compareStrings = (str1: string, str2: string) => {
+export const compareStrings = (str1 = '', str2 = '') => {
+  if (str1 === '' || str2 === '') {
+    return -1;
+  }
+
   const value1 = parseStringToInt(str1);
   const value2 = parseStringToInt(str2);
 

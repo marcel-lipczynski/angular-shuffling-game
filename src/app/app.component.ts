@@ -2,8 +2,8 @@ import { NgClass, NgForOf, NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { ActionsBarComponent } from './components/actions-bar/actions-bar.component';
 import { GameBoardComponent } from './components/game-board/game-board.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
   standalone: true,
@@ -12,10 +12,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     NgForOf,
     NgClass,
     NgStyle,
-    NavbarComponent,
+    ActionsBarComponent,
     GameBoardComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {}

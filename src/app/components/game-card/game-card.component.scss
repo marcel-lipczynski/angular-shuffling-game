@@ -1,14 +1,68 @@
-.game-card {
-  min-width: 400px;
-  max-width: 400px;
-  height: 200px;
-  margin: 20px;
-}
+.card {
+  position: relative;
 
-mat-card-title {
-  color: grey;
-}
+  &__image {
+    width: 100%;
+    display: block;
+    border: 2px solid white;
+    border-radius: 6px;
+  }
 
-p {
-  color: antiquewhite;
+  &__header {
+    display: flex;
+    justify-content: center;
+
+    .profile-picture {
+      overflow: hidden;
+      width: 80px;
+      height: 80px;
+      background: white;
+      margin-bottom: 1rem;
+      border-radius: 50%;
+    }
+  }
+
+  .front {
+    transform: rotateY(90deg);
+    transition: all ease-in 0.2s;
+    position: absolute;
+  }
+
+  .back {
+    cursor: pointer;
+    transform: rotateY(0deg);
+    transition: all ease-in 0.2s;
+    transition-delay: 0.2s;
+  }
+
+  .flipped {
+    .front {
+      transform: rotateY(0deg);
+      transition-delay: 0.2s;
+    }
+
+    .winner {
+      border: 2px solid gold;
+      transition: 1.5s;
+      transform: scale(1.4);
+      z-index: 100;
+    }
+
+    .back {
+      transform: rotateY(90deg);
+      transition-delay: 0s;
+    }
+  }
+
+  mat-card {
+    height: 200px;
+    width: 100%;
+    display: block;
+    border: 2px solid white;
+    border-radius: 6px;
+
+    mat-card-content {
+      padding: 0;
+    }
+  }
 }

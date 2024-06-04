@@ -1,22 +1,18 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 // eslint-disable-next-line import/namespace
 import { EMPTY, of } from 'rxjs';
 
 import { GameBoardComponent } from './game-board.component';
 import { ListResponse } from '../../models/api-response.interface';
-import { PersonDetailed } from '../../models/person.interface';
-import { StarshipDetailed } from '../../models/starship.interface';
+import { GameResource } from '../../models/game-resource.model';
+import { Person } from '../../models/person.interface';
+import { Starship } from '../../models/starship.interface';
 import { StarWarsUniverseService } from '../../services/star-wars-universe.service';
 
 describe('GameBoardComponent', () => {
   let component: GameBoardComponent;
   let fixture: ComponentFixture<GameBoardComponent>;
-  let starWarsUniverseService: StarWarsUniverseService;
+  let starWarsServiceMock: StarWarsUniverseService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,7 +28,7 @@ describe('GameBoardComponent', () => {
       ],
     }).compileComponents();
 
-    starWarsUniverseService = TestBed.inject(StarWarsUniverseService);
+    starWarsServiceMock = TestBed.inject(StarWarsUniverseService);
 
     fixture = TestBed.createComponent(GameBoardComponent);
     component = fixture.componentInstance;
@@ -43,172 +39,105 @@ describe('GameBoardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fetch starships and people lists from service on init', () => {
-    const starships = [{ name: 'Starship 1' }, { name: 'Starship 2' }];
-    const people = [{ name: 'Person 1' }, { name: 'Person 2' }];
+  describe('ngOnInit', () => {
+    it('should load starships and people resources', () => {
+      const mockStarshipsResponse = {
+        results: [{ name: 'Starship 1', passengers: '100' }],
+      } as ListResponse<Starship>;
+      const mockPeopleResponse = {
+        results: [{ name: 'Person 1', mass: '70' }],
+      } as ListResponse<Person>;
 
-    jest
-      .spyOn(starWarsUniverseService, 'getStarshipsList')
-      .mockReturnValue(
-        of({ results: starships } as ListResponse<StarshipDetailed>),
+      starWarsServiceMock.getStarshipsList = jest.fn(() =>
+        of(mockStarshipsResponse),
       );
-    jest
-      .spyOn(starWarsUniverseService, 'getPeopleList')
-      .mockReturnValue(of({ results: people } as ListResponse<PersonDetailed>));
+      starWarsServiceMock.getPeopleList = jest.fn(() => of(mockPeopleResponse));
 
-    component.ngOnInit();
+      component.ngOnInit();
 
-    expect(component.allStarships).toEqual(starships);
-    expect(component.allPeople).toEqual(people);
+      expect(component.gameResources['starships']).toEqual([
+        new GameResource('Starship 1', '100'),
+      ]);
+      expect(component.gameResources['people']).toEqual([
+        new GameResource('Person 1', '70'),
+      ]);
+    });
   });
 
-  it('should correctly shuffle resources', () => {
-    const starships = [
-      { name: 'Starship 1' },
-      { name: 'Starship 2' },
-    ] as StarshipDetailed[];
-    component.allStarships = starships;
+  describe('resetScore', () => {
+    it('should reset the score and call resetSelectedResources', () => {
+      const resetSelectedResourcesSpy = jest.spyOn(
+        component,
+        'resetSelectedResources',
+      );
 
-    component.selectedResource = 'starships';
-    component['shuffleResources']();
+      component.resetScore();
 
-    expect(component.playerOneResource).toBeDefined();
-    expect(component.playerTwoResource).toBeDefined();
-    expect(starships).toContain(component.playerOneResource);
-    expect(starships).toContain(component.playerTwoResource);
+      expect(component.gameScore).toEqual({
+        playerOneScore: 0,
+        playerTwoScore: 0,
+      });
+      expect(resetSelectedResourcesSpy).toHaveBeenCalled();
+    });
   });
 
-  it('should correctly shuffle resources for People objects', () => {
-    const people: PersonDetailed[] = [
-      { name: 'Person 1', mass: '100' },
-      { name: 'Person 2', mass: '200' },
-    ] as PersonDetailed[];
-    component.allPeople = people;
+  it('should set playerOneResource if it is undefined', () => {
+    const resource = new GameResource('Resource 1', '100');
 
-    component.selectedResource = 'people';
-    component['shuffleResources']();
+    component.selectResource(resource);
 
-    expect(component.playerOneResource).toBeDefined();
-    expect(component.playerTwoResource).toBeDefined();
-    expect(people).toContain(component.playerOneResource);
-    expect(people).toContain(component.playerTwoResource);
+    expect(component.playerOneResource).toBe(resource);
   });
 
-  it('should choose player two as the winner if comparison value is 0', () => {
-    const playerOne = { name: 'Person 1', mass: '100' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '200' } as PersonDetailed;
+  it('should set playerTwoResource and choose winner if playerOneResource is defined', () => {
+    const resource1 = new GameResource('Resource 1', '100');
+    const resource2 = new GameResource('Resource 2', '200');
 
-    component.playerOneResource = playerOne;
-    component.playerTwoResource = playerTwo;
-    component.selectedResource = 'people';
-    component.chooseWinner();
+    component.playerOneResource = resource1;
 
-    expect(component.winner).toEqual(playerTwo);
+    component.selectResource(resource2);
+
+    expect(component.playerTwoResource).toBe(resource2);
+    expect(component.winner).toBe(resource2);
   });
 
-  it('should choose player one as the winner if comparison value is 1', () => {
-    const playerOne = { name: 'Person 1', mass: '200' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '100' } as PersonDetailed;
+  it('should increase playerOneScore if playerOneResource wins', () => {
+    const resource1 = new GameResource('Resource 1', '200');
+    const resource2 = new GameResource('Resource 2', '100');
 
-    component.playerOneResource = playerOne;
-    component.playerTwoResource = playerTwo;
-    component.selectedResource = 'people';
-    component.chooseWinner();
+    component.playerOneResource = resource1;
+    component.playerTwoResource = resource2;
 
-    expect(component.winner).toEqual(playerOne);
-  });
+    component['chooseWinner']();
 
-  it('should not set a winner if comparison value is neither 1 nor 0', () => {
-    const playerOne = { name: 'Person 1', mass: '100' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '100' } as PersonDetailed;
-
-    component.playerOneResource = playerOne;
-    component.playerTwoResource = playerTwo;
-    component.selectedResource = 'people';
-    component.chooseWinner();
-
-    expect(component.winner).toBeUndefined();
-  });
-
-  it('should correctly increase the score when player two wins', () => {
-    const playerOne = { name: 'Person 1', mass: '100' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '200' } as PersonDetailed;
-
-    component.winner = playerTwo;
-    component.playerOneResource = playerOne;
-    component.playerTwoResource = playerTwo;
-
-    component.increaseScore();
-
-    expect(component.gameScore.playerTwoScore).toBe(1);
-  });
-
-  it('should correctly increase the score when player one wins', () => {
-    const playerOne = { name: 'Person 1', mass: '200' } as PersonDetailed;
-    const playerTwo = { name: 'Person 2', mass: '100' } as PersonDetailed;
-
-    component.winner = playerOne;
-    component.playerOneResource = playerOne;
-    component.playerTwoResource = playerTwo;
-
-    component.increaseScore();
-
+    expect(component.winner).toBe(resource1);
     expect(component.gameScore.playerOneScore).toBe(1);
   });
 
-  it('should correctly reset the selected resource', () => {
-    component.playerOneResource = { name: 'Person 1' } as PersonDetailed;
-    component.playerTwoResource = { name: 'Person 2' } as PersonDetailed;
+  it('should increase playerTwoScore if playerTwoResource wins', () => {
+    const resource1 = new GameResource('Resource 1', '100');
+    const resource2 = new GameResource('Resource 2', '200');
 
-    component.resetSelectedResource();
+    component.playerOneResource = resource1;
+    component.playerTwoResource = resource2;
 
-    expect(component.playerOneResource).toBeUndefined();
-    expect(component.playerTwoResource).toBeUndefined();
+    component['chooseWinner']();
+
+    expect(component.winner).toBe(resource2);
+    expect(component.gameScore.playerTwoScore).toBe(1);
   });
 
-  it('should start drawing and stop after 3 seconds', fakeAsync(() => {
-    component.chooseWinner = jest.fn();
-    component.increaseScore = jest.fn();
-    component['shuffleResources'] = jest.fn();
+  it('should not increase score if there is no winner', () => {
+    const resource1 = new GameResource('Resource 1', '100');
+    const resource2 = new GameResource('Resource 2', '100');
 
-    component.isSpinning = false;
-    component.shuffleInterval = undefined;
+    component.playerOneResource = resource1;
+    component.playerTwoResource = resource2;
 
-    component.startDrawing();
-    expect(component.isSpinning).toBe(true);
+    component['chooseWinner']();
 
-    tick(3000); // Advance time by 3 seconds
-
-    expect(component.isSpinning).toBe(false);
-
-    expect(component.chooseWinner).toHaveBeenCalled();
-    expect(component.increaseScore).toHaveBeenCalled();
-    expect(component['shuffleResources']).toHaveBeenCalled();
-  }));
-
-  it('should correctly reset the score and selected resources', () => {
-    component.gameScore = { playerOneScore: 2, playerTwoScore: 1 };
-    component.playerOneResource = { name: 'Player One' } as PersonDetailed;
-    component.playerTwoResource = { name: 'Player Two' } as PersonDetailed;
-
-    component.resetScore();
-
+    expect(component.winner).toBeUndefined();
     expect(component.gameScore.playerOneScore).toBe(0);
     expect(component.gameScore.playerTwoScore).toBe(0);
-    expect(component.playerOneResource).toBeUndefined();
-    expect(component.playerTwoResource).toBeUndefined();
-  });
-
-  it('should return the mass property for people', () => {
-    const person = { name: 'Person', mass: '100' } as PersonDetailed;
-    const result = component['getProperty'](person);
-    expect(result).toBe('100');
-  });
-
-  it('should return the passengers property for starships', () => {
-    const starship = { name: 'Starship', passengers: '10' } as StarshipDetailed;
-    component.selectedResource = 'starships';
-    const result = component['getProperty'](starship);
-    expect(result).toBe('10');
   });
 });

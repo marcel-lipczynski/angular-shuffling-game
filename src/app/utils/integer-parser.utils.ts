@@ -8,6 +8,10 @@ export const parseStringToInt = (str: string): number => {
 };
 
 export const compareStrings = (str1 = '', str2 = '') => {
+  if (str1 === '' || str2 === '') {
+    return -1;
+  }
+
   const value1 = parseStringToInt(str1);
   const value2 = parseStringToInt(str2);
 

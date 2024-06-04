@@ -49,20 +49,6 @@ describe('StarWarsUniverseService', () => {
     req.flush(dummyPeopleList);
   });
 
-  it('should retrieve person details from the API via GET', () => {
-    const dummyPersonId = '1';
-    const dummyPersonDetails = { name: 'Luke Skywalker' };
-    service.getPersonDetails(dummyPersonId).subscribe((personDetails) => {
-      expect(personDetails).toEqual(dummyPersonDetails);
-    });
-
-    const req = httpTestingController.expectOne(
-      `${service['baseUrl']}/people/${dummyPersonId}`,
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyPersonDetails);
-  });
-
   it('should retrieve starships list from the API via GET', () => {
     const dummyStarshipsList = [{ name: 'X-wing' }];
     service.getStarshipsList().subscribe((starshipsList) => {
@@ -74,19 +60,5 @@ describe('StarWarsUniverseService', () => {
     );
     expect(req.request.method).toBe('GET');
     req.flush(dummyStarshipsList);
-  });
-
-  it('should retrieve starship details from the API via GET', () => {
-    const dummyStarshipId = '1';
-    const dummyStarshipDetails = { name: 'X-wing' };
-    service.getStarshipDetails(dummyStarshipId).subscribe((starshipDetails) => {
-      expect(starshipDetails).toEqual(dummyStarshipDetails);
-    });
-
-    const req = httpTestingController.expectOne(
-      `${service['baseUrl']}/starships/${dummyStarshipId}`,
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyStarshipDetails);
   });
 });

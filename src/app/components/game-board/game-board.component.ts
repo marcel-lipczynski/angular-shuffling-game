@@ -79,8 +79,6 @@ export class GameBoardComponent implements OnInit {
     const playerOneValue = this.getProperty(this.playerOneResource);
     const playerTwoValue = this.getProperty(this.playerTwoResource);
 
-    console.log(playerOneValue, playerTwoValue);
-
     const comparisonValue = compareStrings(playerOneValue, playerTwoValue);
 
     if (comparisonValue === 1) this.winner = this.playerOneResource;

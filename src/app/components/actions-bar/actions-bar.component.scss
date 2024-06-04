@@ -30,3 +30,23 @@
     }
   }
 }
+
+@media only screen and (max-width: 620px) {
+  .actions-bar {
+    .action-buttons {
+      flex-direction: column;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    mat-button-toggle-group {
+      display:flex;
+      justify-content: center;
+
+      mat-button-toggle {
+        width: 100%;
+      }
+    }
+  }
+}
+

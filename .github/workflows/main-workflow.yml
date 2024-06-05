@@ -104,6 +104,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm start
+          project: ./e2e
 
   build:
     runs-on: ubuntu-latest

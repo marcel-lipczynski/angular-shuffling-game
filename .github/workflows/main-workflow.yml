@@ -95,7 +95,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm start
-          working-directory: ./e2e
+          project: ./e2e
+          publish-summary: false
           browser: chrome
 
   build:

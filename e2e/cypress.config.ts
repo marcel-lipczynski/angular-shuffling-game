@@ -3,6 +3,12 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setupNodeEvents(on, config) {
+      on('after:run', (results) => {
+        console.log(results);
+      });
+    },
     ...nxE2EPreset(__filename, {
       cypressDir: 'src',
       webServerCommands: {

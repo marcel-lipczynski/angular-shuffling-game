@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" data-cy="game-card">
   <div [ngClass]="{ 'flipped': isFlipped }">
     <mat-card class="front" [ngClass]="{ 'winner': winner === gameResource }">
       <mat-card-header class="card__header">
@@ -14,7 +14,7 @@
       </mat-card-header>
       <mat-card-content *ngIf="gameResource"
         >{{ gameResource.name }}
-        <p>
+        <p data-cy="detail-attribute">
           {{
             (selectedResource === 'people' ? 'Mass' : 'Passengers') +
               ': ' +

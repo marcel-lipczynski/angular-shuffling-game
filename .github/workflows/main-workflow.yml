@@ -95,8 +95,6 @@ jobs:
 
       - name: Start server
         run: npm start &
-        env:
-          CI: true
 
       - name: Wait for server to be ready
         run: npx wait-on http://localhost:4200

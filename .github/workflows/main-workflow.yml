@@ -90,6 +90,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm start
+          headed: true
           project: ./e2e
           publish-summary: false
 

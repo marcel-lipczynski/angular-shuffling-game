@@ -91,7 +91,7 @@ jobs:
         with:
           start: npm start
           headed: true
-          working-directory: e2e
+          project: ./e2e
           publish-summary: false
 
   build:

@@ -15,3 +15,14 @@
 
 // Import commands.ts using ES2015 syntax:
 import './commands';
+
+// eslint-disable-next-line @typescript-eslint/no-namespace,@typescript-eslint/no-unused-vars
+
+declare global {
+  namespace Cypress {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    interface Chainable {
+      getByDataCy(selector: string): Chainable<JQuery<HTMLElement>>;
+    }
+  }
+}

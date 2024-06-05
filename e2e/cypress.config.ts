@@ -10,7 +10,7 @@ export default defineConfig({
       });
     },
     ...nxE2EPreset(__filename, {
-      cypressDir: 'e2e',
+      cypressDir: 'src',
       webServerCommands: {
         default: 'nx run angular-shuffling-game:serve:development',
         production: 'nx run angular-shuffling-game:serve:production',

@@ -82,17 +82,27 @@ jobs:
 
   e2e:
     runs-on: ubuntu-latest
-    needs: install-dependencies
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cypress Run
-        uses: cypress-io/github-action@v6
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
         with:
-          start: npm start
-          headed: true
-          project: ./e2e
-          publish-summary: false
+          node-version: 20
+
+      - name: Install node_modules
+        run: npm ci
+
+      - name: Start server
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:4200
+
+      - name: Cypress Run
+        run: npx cypress run --project ./e2e
 
   build:
     runs-on: ubuntu-latest

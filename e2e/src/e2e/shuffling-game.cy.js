@@ -5,7 +5,7 @@ describe('Test shuffling game', () => {
 
   beforeEach(() => {
     userActor.interceptGameResourceRequest();
-    cy.visit('/')
+    cy.visit('/');
   });
 
   it('should display game page properly without score', () => {

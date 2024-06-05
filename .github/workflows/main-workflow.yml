@@ -91,19 +91,12 @@ jobs:
         with:
           node-version: 20
 
-      - uses: actions/cache/restore@v4
-        id: cache-npm
-        with:
-          path: ~/.npm
-          key: npm-
-
       - name: Install node_modules
-        run: npm ci --ignore-scripts
+        run: npm ci
 
       - name: Cypress Run
         uses: cypress-io/github-action@v6
         with:
-          install: false
           browser: chrome
           start: npm start
           project: ./e2e

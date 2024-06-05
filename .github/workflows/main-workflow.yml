@@ -94,8 +94,9 @@ jobs:
       - name: Cypress Run
         uses: cypress-io/github-action@v6
         with:
-          browser: chrome
           start: npm start
+          project: ./e2e
+          browser: chrome
 
   build:
     runs-on: ubuntu-latest

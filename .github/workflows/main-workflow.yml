@@ -117,11 +117,5 @@ jobs:
       - name: Install node_modules
         run: npm ci
 
-      - name: Start server
-        run: npm start &
-
-      - name: Wait for server to be ready
-        run: npx wait-on http://localhost:4200
-
       - name: Cypress Run
         run: npx cypress run --project ./e2e

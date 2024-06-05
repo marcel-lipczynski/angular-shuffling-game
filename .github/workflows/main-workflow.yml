@@ -86,18 +86,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Cypress Run
         uses: cypress-io/github-action@v6
         with:
           start: npm start
           project: ./e2e
           publish-summary: false
-          browser: chrome
 
   build:
     runs-on: ubuntu-latest

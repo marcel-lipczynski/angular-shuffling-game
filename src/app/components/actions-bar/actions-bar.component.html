@@ -2,12 +2,12 @@
   <div class="score-board">
     <div class="player-one">
       <p>Player 1</p>
-      <div>{{ gameScore.playerOneScore }}</div>
+      <div data-cy="player-one-score">{{ gameScore.playerOneScore }}</div>
     </div>
     <div>vs</div>
     <div class="player-two">
       <p>Player 2</p>
-      <div>{{ gameScore.playerTwoScore }}</div>
+      <div data-cy="player-two-score">{{ gameScore.playerTwoScore }}</div>
     </div>
   </div>
 
@@ -17,6 +17,7 @@
       color="warn"
       [disabled]="!isPlaying"
       (click)="playAgain.emit()"
+      data-cy="play-again-btn"
     >
       Play again
     </button>
@@ -25,11 +26,17 @@
       [disabled]="isPlaying"
       [(ngModel)]="gameMode"
       (ngModelChange)="gameModeChanged.emit(gameMode)"
+      data-cy="game-mode-toggle"
     >
       <mat-button-toggle value="people">People</mat-button-toggle>
       <mat-button-toggle value="starships">Starships</mat-button-toggle>
     </mat-button-toggle-group>
-    <button mat-stroked-button color="warn" (click)="resetScore.emit()">
+    <button
+      mat-stroked-button
+      color="warn"
+      (click)="resetScore.emit()"
+      data-cy="reset-score-btn"
+    >
       Reset score
     </button>
   </div>

@@ -23,6 +23,7 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Chainable {
       getByDataCy(selector: string): Chainable<JQuery<HTMLElement>>;
+      findByDataCy(selector: string): Chainable<JQuery<HTMLElement>>;
     }
   }
 }

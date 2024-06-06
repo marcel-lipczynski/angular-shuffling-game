@@ -28,8 +28,12 @@
       (ngModelChange)="gameModeChanged.emit(gameMode)"
       data-cy="game-mode-toggle"
     >
-      <mat-button-toggle value="people">People</mat-button-toggle>
-      <mat-button-toggle value="starships">Starships</mat-button-toggle>
+      <mat-button-toggle value="people" data="people-mode"
+        >People</mat-button-toggle
+      >
+      <mat-button-toggle value="starships" data-cy="starships-mode"
+        >Starships</mat-button-toggle
+      >
     </mat-button-toggle-group>
     <button
       mat-stroked-button

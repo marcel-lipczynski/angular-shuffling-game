@@ -69,7 +69,9 @@ export class GameBoardComponent implements OnInit {
           );
         }),
       )
-      .subscribe((starships) => (this.gameResources['starships'] = starships));
+      .subscribe(
+        (starships) => (this.gameResources['starships'] = _.shuffle(starships)),
+      );
 
     this.starWarsService
       .getPeopleList()
@@ -80,7 +82,9 @@ export class GameBoardComponent implements OnInit {
           );
         }),
       )
-      .subscribe((people) => (this.gameResources['people'] = people));
+      .subscribe(
+        (people) => (this.gameResources['people'] = _.shuffle(people)),
+      );
   }
 
   private shuffleResources() {

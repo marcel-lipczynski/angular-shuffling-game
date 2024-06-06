@@ -1,0 +1,47 @@
+<div class="actions-bar">
+  <div class="score-board">
+    <div class="player-one">
+      <p>Player 1</p>
+      <div data-cy="player-one-score">{{ gameScore.playerOneScore }}</div>
+    </div>
+    <div>vs</div>
+    <div class="player-two">
+      <p>Player 2</p>
+      <div data-cy="player-two-score">{{ gameScore.playerTwoScore }}</div>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button
+      mat-stroked-button
+      color="warn"
+      [disabled]="!isPlaying"
+      (click)="playAgain.emit()"
+      data-cy="play-again-btn"
+    >
+      Play again
+    </button>
+    <mat-button-toggle-group
+      name="playableResource"
+      [disabled]="isPlaying"
+      [(ngModel)]="gameMode"
+      (ngModelChange)="gameModeChanged.emit(gameMode)"
+      data-cy="game-mode-toggle"
+    >
+      <mat-button-toggle value="people" data="people-mode"
+        >People</mat-button-toggle
+      >
+      <mat-button-toggle value="starships" data-cy="starships-mode"
+        >Starships</mat-button-toggle
+      >
+    </mat-button-toggle-group>
+    <button
+      mat-stroked-button
+      color="warn"
+      (click)="resetScore.emit()"
+      data-cy="reset-score-btn"
+    >
+      Reset score
+    </button>
+  </div>
+</div>
